@@ -1,0 +1,115 @@
+<head>
+  <title>Buddy Balance</title>
+</head>
+
+<body>
+  {{> navBar }}
+  <div class='container'>
+    <div class='row'>
+      {{> leftSide }}
+      {{> rightSide }}
+   </div>
+  </div>
+</body>
+
+<!--
+  The navbar that you see at the top, right now just a logo.
+  -->
+<template name='navBar'>
+<div class='navbar'>
+  <div class='navbar-inner'>
+    <div class='container'>
+      <a class='brand' href='#'>Buddy Balance</a>
+    </div>
+  </div>
+</div>
+</template>
+
+<!-- 
+  The left column.
+  Right now, only contains the new transaction form
+  -->
+<template name='leftSide'>
+<div class='span3'>
+  {{> newTransactionForm }}
+</div>
+</template>
+
+<!--
+  The Right column
+  tables showing balance information and a transaction log.
+  -->
+<template name='rightSide'>
+<div class='span9'>
+  <ul class='nav nav-tabs'>
+    <li class='active'>
+      <a href='#transactionTable' data-toggle='tab'>Transactions</a>
+    </li>
+    <li>
+      <a href='#balanceTable' data-toggle='tab'>Balances</a>
+    </li>
+  </ul>
+  <div class='tab-content'>
+    {{> transactionTable }}
+    {{> balanceTable }}
+  </div>
+</div>
+</template>
+
+<template name='transactionTable'>
+<div class='tab-pane active fade in' id='transactionTable'>
+  <table class='table table-striped table-condensed'>
+    <thead>
+      <tr>
+        <th> Date </th>
+        <th> Buddy </th>
+        <th> Direction </th>
+        <th> Memo </th>
+        <th> Amount </th>
+        <th> Status </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each transactions }}
+        <tr>
+          <td>{{ created_at }}</td>
+          <td>{{ targetBuddy }}</td>
+          <td>+ / -</td>
+          <td>{{ memo }}</td>
+          <td>{{ amount }}</td>
+          <td>{{ status }}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+</template>
+<template name='balanceTable'>
+<div class='tab-pane fade' id='balanceTable'>
+  <table class='table table-striped table-condensed'>
+    <thead>
+      <th>User</th>
+      <th>Status</th>
+      <th>Amount</th>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+</template>
+
+<template name='newTransactionForm'>
+<form id='newTransaction'>
+  <fieldset>
+    <legend> New Transaction </legend>
+    <input type='text' id='targetBuddy' placeholder="Buddy's name or email..." class='span3'/>
+    <input type='text' id='amount' placeholder="Amount..." class='span3'/>
+    <input type='text' id='memo' placeholder="Memo..." class='span3'/>
+    <div class='btn-group' data-toggle='buttons-radio'>
+      <button type='button' class='btn' style='width:50%;'>To me</button>
+      <button type='button' class='btn' style='width:50%;'>To them</button>
+    </div>
+    <input type='submit' class='btn btn-block span3' id='create' value='Create' />
+  </fieldset>
+</form>
+</template>
