@@ -1,17 +1,45 @@
+# template helpers
+Handlebars.registerHelper("date", (dateObject) ->
+  new Date(dateObject).toLocaleDateString()
+)
+Handlebars.registerHelper("getTargetBuddy", (transaction) ->
+  if( Meteor.userId() == transaction.to )
+    return transaction.from
+  else
+    return transaction.to
+)
+Handlebars.registerHelper("getDirection", (transaction) ->
+  if( Meteor.userId() == transaction.to )
+    return 'you owe'
+  else
+    return 'owed'
+)
+
 Meteor.subscribe("transactions")
 
 Template.transactionTable.transactions = () ->
-  console.log('got here!')
   Transactions.find()
+
+Template.transactionTable.events({
+  'click .set-transaction-target': (e, template) ->
+    e.preventDefault()
+    $('#targetBuddy').val(e.target.innerHTML)
+})
 
 Template.newTransactionForm.events({ 
   'click #create' : (e, template) ->
-    console.log('got here!')
     # prevent the form from submitting
     e.preventDefault()
     # build the data
+    if $('#toMe').hasClass('active')
+      to = Meteor.userId()
+      from = template.find('#targetBuddy').value
+    else
+      from = Meteor.userId()
+      to = template.find('#targetBuddy').value
     newTransaction = {
-      targetBuddy: template.find('#targetBuddy').value
+      to: to
+      from: from
       amount: template.find('#amount').value
       memo: template.find('#memo').value
     }
