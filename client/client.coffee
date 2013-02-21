@@ -10,9 +10,9 @@ Handlebars.registerHelper("getTargetBuddy", (transaction) ->
 )
 Handlebars.registerHelper("getDirection", (transaction) ->
   if( Meteor.userId() == transaction.to )
-    return 'you owe'
-  else
     return 'owed'
+  else
+    return 'you owe'
 )
 
 Meteor.subscribe("transactions")
@@ -26,7 +26,10 @@ Template.transactionTable.events({
     $('#targetBuddy').val(e.target.innerHTML)
 })
 
-Template.newTransactionForm.events({ 
+Template.balanceTable.balances = () ->
+  Meteor.call('myTransactions')
+
+Template.newTransactionForm.events({
   'click #create' : (e, template) ->
     # prevent the form from submitting
     e.preventDefault()
@@ -46,6 +49,7 @@ Template.newTransactionForm.events({
     Meteor.call('createTransaction', newTransaction, (error)->
       console.log(error)
     )
-    $('#newTransaction')[0].reset();
+    $('#newTransaction')[0].reset()
 })
 
+console.log(Meteor.call('myTransactions'))
