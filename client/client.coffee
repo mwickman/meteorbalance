@@ -16,6 +16,7 @@ Handlebars.registerHelper("getDirection", (transaction) ->
 )
 
 Meteor.subscribe("transactions")
+Meteor.subscribe("balances")
 
 Template.transactionTable.transactions = () ->
   Transactions.find()
@@ -27,7 +28,7 @@ Template.transactionTable.events({
 })
 
 Template.balanceTable.balances = () ->
-  Meteor.call('myTransactions')
+
 
 Template.newTransactionForm.events({
   'click #create' : (e, template) ->
@@ -52,4 +53,3 @@ Template.newTransactionForm.events({
     $('#newTransaction')[0].reset()
 })
 
-console.log(Meteor.call('myTransactions'))

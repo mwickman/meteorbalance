@@ -4,29 +4,28 @@ Meteor.methods({
   createTransaction: (options) ->
     options = options || {}
     options.created_at = new Date()
-    console.log(options)
-    return Transactions.insert(options)
 
-  # this will fetch all the users' to and from transactions
+  # this will fetch all the user's to and from transactions
   myTransactions: (options) ->
-    console.log(Meteor.userId())
     t = Transactions.find({
       $or: [ {to: Meteor.userId()} , {from: Meteor.userId()} ]
-    })#.fetch()
-    console.log(t)
+    }).fetch()
     return t
 
   myBuddies: (options) ->
-    myTs = Meteor.call 'myTransactions()'
-    console.log(myTs)
-    _.uniq(
-      _.reject(
-        _.union(
-          _.pluck( myTs, 'to' ),
-          _.pluck( myTs, 'from' )
-        )
-        , Meteor.userId() ) )
+    myTs = Meteor.call 'myTransactions()', (e, d) ->
+      if (e)
+        console.log(e)
+      else
+        _.uniq(
+          _.reject(
+            _.union(
+              _.pluck( myTs, 'to' ),
+              _.pluck( myTs, 'from' )
+            )
+            , Meteor.userId() ) )
 
   myBalances: (options) ->
+    this.myBuddies({}, (e, d) -> console.log(d))
 
 })
