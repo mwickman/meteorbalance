@@ -28,7 +28,19 @@ Template.transactionTable.events({
 })
 
 Template.balanceTable.balances = () ->
+  ts = Transactions.find().
+    fetch()
+  r = _.uniq(
+    _.reject(
+      _.union(
+        _.pluck( ts, 'to' ),
+        _.pluck( ts, 'from' )
+      )
+      , (x) ->
+        x != Meteor.userId() ) )
 
+  console.log(r)
+  r
 
 Template.newTransactionForm.events({
   'click #create' : (e, template) ->

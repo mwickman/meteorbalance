@@ -99,6 +99,11 @@
       <th>Amount</th>
     </thead>
     <tbody>
+      {{#each balances }}
+        <tr>
+          <td> this </td>
+        </tr>
+      {{/each}}
     </tbody>
   </table>
 </div>
@@ -109,19 +114,25 @@
   <fieldset>
     <legend> New Transaction </legend>
     <input type='text' id='targetBuddy' placeholder="Buddy's name or email..." class='span3'/>
-    <div class='btn-group' data-toggle='buttons-radio'>
-      <button class='btn active' id='toMe' type='button'>
+    <div class='btn-group' data-toggle='buttons-radio'
+      style='width:100%;'>
+      <button class='btn active' id='toMe' type='button'
+        style='width:50%;'>
         <i class='icon-plus-sign'></i>
-        Owes Me
+        Paid me
       </button>
-      <button class='btn' id='toThem' type='button'>
+      <button class='btn' id='toThem' type='button'
+        style='width:50%;'>
         <i class='icon-minus-sign'></i>
-        I owe
+        Paid Them
       </button>
     </div>
     <input type='text' id='amount' placeholder="Amount..." class='span3'/>
     <input type='text' id='memo' placeholder="Memo..." class='span3'/>
-    <input type='submit' class='btn btn-inverse btn-block span3' id='create' value='Create' />
+    <button class='btn btn-inverse' id='create'>
+      <i class='icon-refresh icon-white'></i>
+      Balance!
+    </button>
   </fieldset>
 </form>
 </template>
