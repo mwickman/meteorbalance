@@ -79,9 +79,9 @@
           <td>
             <a href='#' class='set-transaction-target'>{{ target_buddy }}</a>
           </td>
-          <td>{{ direction }}</td>
+          <td>{{ directionHelper direction }}</td>
           <td>{{ memo }}</td>
-          <td>{{ amount }}</td>
+          <td>{{ toMoney amount }}</td>
           <td>{{ status }}</td>
         </tr>
       {{/each}}

@@ -1,12 +1,18 @@
 # template helpers
-toMoney = (mny) ->
-  '$'+mny.toFixed(2)
+toMoney = (money) ->
+  '$'+(parseFloat(money)).toFixed(2)
+
+Handlebars.registerHelper "toMoney", (money) ->
+  toMoney (money)
 
 Handlebars.registerHelper "date", (dateObject) ->
   new Date(dateObject).toLocaleDateString()
 
 Handlebars.registerHelper "balanceStatus", (amount) ->
-  amount > 0 ? "OWES YOU" : "YOU OWE"
+  if amount > 0 then "OWES YOU" else "YOU OWE"
+
+Handlebars.registerHelper "directionHelper", (direction) ->
+  if direction > 0 then "YOU PAID" else "PAID YOU" 
 
 Handlebars.registerHelper "balanceAmountPrint", (amount) ->
   toMoney(Math.abs(amount))

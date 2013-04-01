@@ -1,9 +1,6 @@
 Meteor.startup ->
   if Meteor.isServer
     console.log "Starting server...#{new Date()}"
-    Transactions.remove({})
-    Balances.remove({})
-
 
 Meteor.publish "balances", ->
   Balances.find({
@@ -11,12 +8,9 @@ Meteor.publish "balances", ->
   })
 
 Meteor.publish "transactions", ->
-  Transactions.find({
-      owner: this.userId
-    },
-    {
-      sort: {created_at: -1}
-    }
+  Transactions.find(
+    { owner: this.userId },
+    { sort: {created_at: -1} }
   )
 
 Meteor.methods({
